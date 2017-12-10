@@ -1,4 +1,4 @@
-class My_Validator < ActiveRecord::Validator
+class My_Validator < ActiveModel::Validator
   def validate(record)
     words = ["Top [number]", "Guess", "Won't Believe", "Secret"]
     if words.none? {|w| record.title.include?(w)}
