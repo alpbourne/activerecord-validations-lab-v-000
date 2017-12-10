@@ -1,16 +1,15 @@
-class My_Validator < ActiveModel::Validator
-  def validate(record)
-    words = ["Top [number]", "Guess", "Won't Believe", "Secret"]
-    if words.none? {|w| w.match(record.title)}
-      record.errors[:title] << 'title is not clickbaity'
-    end
-  end
-end
-
 class Post < ActiveRecord::Base
   validates :title, presence: true
   validates :content, length: { minimum: 250 }
   validates :summary, length: { maximum: 250 }
   validates :category, inclusion: {in: %w(Fiction Non-Fiction)}
-  validates_with My_Validator
+  validate :clickbait?
+
+  CLICKBAIT = [/Won't Believe/i, /Secret/i, /Top [0-9]*/i, /Guess/i]
+
+  def clickbait?
+    if CLICKBAIT.none? {|x| x.match title}
+      errors.add(:title, "Title must be clickbaity")
+    end
+  end
 end
