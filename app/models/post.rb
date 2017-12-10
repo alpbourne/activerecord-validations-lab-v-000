@@ -1,12 +1,9 @@
 class My_Validator < ActiveRecord::Validator
   def validate(record)
-    if record.title
-      words = ["Top [number]", "Guess", "Won't Believe", "Secret"]
-      unless words.any? {|w| record.title.include?(w)}
-        record.errors[:base] << (options[:message] || "title is not clickbaity")
-      end
+    words = ["Top [number]", "Guess", "Won't Believe", "Secret"]
+    if words.none? {|w| record.title.include?(w)}
+      record.errors[:title] << 'title is not clickbaity'
     end
-    false
   end
 end
 
