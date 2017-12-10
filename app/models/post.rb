@@ -1,4 +1,4 @@
-class MyValidator < ActiveRecord::Validator
+class My_Validator < ActiveRecord::Validator
   def validate(record)
     if record.title
       words = ["Top [number]", "Guess", "Won't Believe", "Secret"]
@@ -15,5 +15,5 @@ class Post < ActiveRecord::Base
   validates :content, length: { minimum: 250 }
   validates :summary, length: { maximum: 250 }
   validates :category, inclusion: {in: %w(Fiction Non-Fiction)}
+  validates_with My_Validator
 end
-
