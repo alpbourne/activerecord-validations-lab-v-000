@@ -1,7 +1,7 @@
 class My_Validator < ActiveModel::Validator
   def validate(record)
     words = ["Top [number]", "Guess", "Won't Believe", "Secret"]
-    if words.none? {|w| record.title.include?(w)}
+    if words.none? {|w| w.match(record.title)}
       record.errors[:title] << 'title is not clickbaity'
     end
   end
